@@ -5,12 +5,16 @@ class MyBar(TemplateView):
     template_name = 'plot.html'
     def get_context_data(self, **kwargs):
         context = super(MyBar, self).get_context_data(**kwargs)
-        context['myplots'] = plots.getBarChartData('DarrenKitching')
+        name = 'DarrenKitching'
+        password = ''
+        context['myplots'] = plots.getBarChartData(name, password)
         return context
 
 class MyPie(TemplateView):
     template_name = 'plot.html'
     def get_context_data(self, **kwargs):
         context = super(MyPie, self).get_context_data(**kwargs)
-        context['myplots'] = plots.getPieChartData('DarrenKitching')
+        name = 'DarrenKitching'
+        password = ''
+        context['myplots'] = plots.getPieChartData(name, password)
         return context

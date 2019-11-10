@@ -4,17 +4,17 @@ import pandas as pd
 from datetime import datetime
 import requests
 	
-def getBarChartData(name):
+def getBarChartData(name, password):
 	api = 'https://api.github.com/users/'
 	fullUrl = api+name
-	response = (requests.get(fullUrl)).json()
+	response = (requests.get(fullUrl, auth=(name, password))).json()
 	names = [str(response['name'])]
 	followers = [str(response['followers'])]
 	following = [str(response['following'])]
 	followingURL = fullUrl + '/following'
-	followingResponse = (requests.get(followingURL)).json()
+	followingResponse = (requests.get(followingURL, auth=(name, password))).json()
 	for x in followingResponse:
-		user = (requests.get(api + str(x['login'])).json())
+		user = (requests.get(api + str(x['login']), auth=(name, password)).json())
 		usersName = str(user['name'])
 		if usersName != 'None':
 			names.append(usersName)
@@ -35,14 +35,14 @@ def getBarChartData(name):
 	plot_div = plot(fig, output_type='div', include_plotlyjs=False)
 	return plot_div
 
-def getPieChartData(name):
+def getPieChartData(name, password):
 	api = 'https://api.github.com/users/'
 	fullUrl = api+name+'/repos'
-	response = (requests.get(fullUrl)).json()
+	response = (requests.get(fullUrl, auth=(name, password))).json()
 	labels = []
 	values = []
 	for x in response:
-		languageURL = (requests.get(str(x['languages_url']))).json()
+		languageURL = (requests.get(str(x['languages_url']), auth=(name, password))).json()
 		for key, value in languageURL.items():
 			updated = False
 			for i in range(len(labels)):

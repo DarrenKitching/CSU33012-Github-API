@@ -28,18 +28,33 @@ def getBarChartData(name):
 		go.Bar(name='Followers', x=names, y=followers),
 		go.Bar(name='Following', x=names, y=following)
 	])
-	fig.update_layout(barmode='group')
+	fig.update_layout(
+		barmode='group',
+		title='How connected are you compared to your friends?'
+	)
 	plot_div = plot(fig, output_type='div', include_plotlyjs=False)
 	return plot_div
 
 def getPieChartData(name):
 	api = 'https://api.github.com/users/'
-	fullUrl = api+name
+	fullUrl = api+name+'/repos'
 	response = (requests.get(fullUrl)).json()
 	labels = []
 	values = []
-	
+	for x in response:
+		languageURL = (requests.get(str(x['languages_url']))).json()
+		for key, value in languageURL.items():
+			updated = False
+			for i in range(len(labels)):
+				if str(key) == labels[i]:
+					values[i] += int(value)
+					updated = True
+			if updated == False:
+				labels.append(str(key))
+				values.append(int(value))
 	fig = go.Figure(data=[go.Pie(labels=labels, values=values)])
-	fig.show()
+	fig.update_layout(
+    	title = 'What are your favourite languages?'
+	)
 	plot_div = plot(fig, output_type='div', include_plotlyjs=False)
 	return plot_div

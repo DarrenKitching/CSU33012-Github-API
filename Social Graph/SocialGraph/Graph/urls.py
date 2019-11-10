@@ -1,7 +1,8 @@
 from django.urls import path
+from .views import MyBar, MyPie
 
-from . import views
 
 urlpatterns = [
-    path('', views.index, name='index'),
+	path('bar', MyBar.as_view(),name='myplots'),
+	path('pie', MyPie.as_view(),name='myplots'),
 ]

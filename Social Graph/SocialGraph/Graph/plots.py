@@ -3,7 +3,24 @@ import plotly.graph_objs as go
 import pandas as pd
 import datetime
 import requests
-	
+
+def switch(monthNum):
+    switcher = {
+        1: "January",
+        2: "February",
+        3: "March",
+        4: "April",
+        5: "May",
+        6: "June",
+        7: "July",
+        8: "August",
+        9: "September",
+        10: "October",
+        11: "November",
+        12: "December"
+    }
+    return switcher.get(monthNum, "Invalid month")
+
 def getBarChartData(name, password):
 	api = 'https://api.github.com/users/'
 	fullUrl = api+name
@@ -61,27 +78,45 @@ def getPieChartData(name, password):
 
 def getScatterPlotData(name, password):
 	today = datetime.date.today()
-    month = today.month
-
-    api = 'https://api.github.com/users/'
+	month = today.month
+	year = today.year
+	api = 'https://api.github.com/users/'
+	repoAPI = 'https://api.github.com/repos/'
 	fullUrl = api+name+'/repos'
 	response = (requests.get(fullUrl, auth=(name, password))).json()
-	labels = []
-	values = []
+	commitDates = []
 	for repos in response:
-		commits = (requests.get(str(repos['commits_url']), auth=(name, password))).json()
+		commits = (requests.get(repoAPI + str(repos['full_name'] + '/commits'), auth=(name, password))).json()
 		for commit in commits:
+			if str(commit['author']['login']) == name:
+				fullDateAndTime = commit['commit']['author']['date']
+				commitDates.append(datetime.date(int(fullDateAndTime[0:4]), int(fullDateAndTime[5:7]), int(fullDateAndTime[8:10])))
+	
+	lastYear = int(year) - 1
+	monthLastYear = int(month)
+	dayLastYear = 1 # always start from beginning of month
 
-		
+	dateYearAgo = datetime.date(lastYear, monthLastYear, dayLastYear)
+	monthAndYears = []
+	monthCopy = monthLastYear
+	yearCopy = lastYear
+	for i in range(13):
+		if monthCopy > 12:
+			monthCopy = 1
+			yearCopy = yearCopy + 1
+		monthAndYears.append(str(switch(monthCopy))+ ' ' + str(yearCopy))
+		monthCopy += 1
+	monthCommitCount = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	for entry in commitDates:
+		if entry > dateYearAgo:
+			commitMonth = entry.month
+			commitYear = entry.year
+			dateString = str(switch(commitMonth)+ ' ' + str(commitYear))
+			for i in range(len(monthAndYears)):
+				if monthAndYears[i] == dateString:
+					monthCommitCount[i] += 1
 
-	fig = go.Figure(data=go.Scatter(
-    	x=[1, 2, 3, 4],
-    	y=[10, 11, 12, 13],
-    	mode='markers',
-    	marker=dict(size=[40, 60, 80, 100],
-    		color=[0, 1, 2, 3])
-	))
-
-
+	fig = go.Figure()
+	fig.add_trace(go.Scatter(x=monthAndYears, y=monthCommitCount, mode='lines+markers', name='lines+markers'))
 	plot_div = plot(fig, output_type='div', include_plotlyjs=False)
 	return plot_div

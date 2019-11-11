@@ -73,6 +73,7 @@ def getPieChartData(name, password):
 	fig.update_layout(
     	title = 'What are your favourite languages?'
 	)
+	fig.update_traces(marker=dict(line=dict(color='#000000', width=1)))
 	plot_div = plot(fig, output_type='div', include_plotlyjs=False)
 	return plot_div
 
@@ -118,5 +119,8 @@ def getScatterPlotData(name, password):
 
 	fig = go.Figure()
 	fig.add_trace(go.Scatter(x=monthAndYears, y=monthCommitCount, mode='lines+markers', name='lines+markers'))
+	fig.update_layout(
+    	title = 'Number of commits per month in the last year'
+	)
 	plot_div = plot(fig, output_type='div', include_plotlyjs=False)
 	return plot_div

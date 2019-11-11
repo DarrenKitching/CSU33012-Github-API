@@ -1,7 +1,7 @@
 from plotly.offline import plot
 import plotly.graph_objs as go
 import pandas as pd
-from datetime import datetime
+import datetime
 import requests
 	
 def getBarChartData(name, password):
@@ -56,5 +56,32 @@ def getPieChartData(name, password):
 	fig.update_layout(
     	title = 'What are your favourite languages?'
 	)
+	plot_div = plot(fig, output_type='div', include_plotlyjs=False)
+	return plot_div
+
+def getScatterPlotData(name, password):
+	today = datetime.date.today()
+    month = today.month
+
+    api = 'https://api.github.com/users/'
+	fullUrl = api+name+'/repos'
+	response = (requests.get(fullUrl, auth=(name, password))).json()
+	labels = []
+	values = []
+	for repos in response:
+		commits = (requests.get(str(repos['commits_url']), auth=(name, password))).json()
+		for commit in commits:
+
+		
+
+	fig = go.Figure(data=go.Scatter(
+    	x=[1, 2, 3, 4],
+    	y=[10, 11, 12, 13],
+    	mode='markers',
+    	marker=dict(size=[40, 60, 80, 100],
+    		color=[0, 1, 2, 3])
+	))
+
+
 	plot_div = plot(fig, output_type='div', include_plotlyjs=False)
 	return plot_div

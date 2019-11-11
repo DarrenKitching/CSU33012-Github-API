@@ -7,7 +7,7 @@
 
 <div class="container text-center">
     <nav class="navbar navbar-dark bg-dark">
-      <a class="navbar-brand">Information about User</a>
+      <a class="navbar-brand">Pie Chart</a>
     </nav>
 
 
@@ -18,5 +18,9 @@
         {{myplots|safe}}
       </div>
     </div>
+    <input type="submit" value="Bar" 
+    onclick="window.location='/bar';" />
+    <input type="submit" value="Scatter" 
+    onclick="window.location='/scatter';" /> 
 </div>
 {% endblock %}

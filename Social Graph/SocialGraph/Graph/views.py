@@ -7,17 +7,24 @@ name = None
 password = None
 
 class MyBar(TemplateView):
-    template_name = 'plot.html'
+    template_name = 'plotbar.html'
     def get_context_data(self, **kwargs):
         context = super(MyBar, self).get_context_data(**kwargs)
         context['myplots'] = plots.getBarChartData(name, password)
         return context
 
 class MyPie(TemplateView):
-    template_name = 'plot.html'
+    template_name = 'plotpie.html'
     def get_context_data(self, **kwargs):
         context = super(MyPie, self).get_context_data(**kwargs)
         context['myplots'] = plots.getPieChartData(name, password)
+        return context
+
+class MyScatter(TemplateView):
+    template_name = 'plotscatter.html'
+    def get_context_data(self, **kwargs):
+        context = super(MyScatter, self).get_context_data(**kwargs)
+        context['myplots'] = plots.getScatterPlotData(name, password)
         return context
 
 def index(request):

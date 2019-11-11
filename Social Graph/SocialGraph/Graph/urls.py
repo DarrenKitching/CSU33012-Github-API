@@ -1,10 +1,11 @@
 from django.urls import path
-from .views import MyBar, MyPie, index, submit
+from .views import MyBar, MyPie, MyScatter, index, submit
 
 
 urlpatterns = [
 	path('', index, name='index'),
-	path('submit', submit, name='index'),
+	path('submit', submit, name='submit'),
 	path('bar', MyBar.as_view(),name='myplots'),
 	path('pie', MyPie.as_view(),name='myplots'),
+	path('scatter', MyScatter.as_view(),name='myplots')
 ]

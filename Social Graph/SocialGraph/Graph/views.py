@@ -36,4 +36,11 @@ def submit(request):
     global password
     name = str(request.POST.get('uname'))
     password = str(request.POST.get('psw'))
-    return HttpResponseRedirect('bar')
+    if plots.checkBadCredentials(name, password):
+        return HttpResponseRedirect('badcredentials')
+    else:    
+        return HttpResponseRedirect('bar')
+
+def badcredentials(request):
+    template = loader.get_template('badcredentials.html')
+    return HttpResponse(template.render())

@@ -1,3 +1,4 @@
+from django.http import HttpResponse, HttpResponseRedirect
 from plotly.offline import plot
 import plotly.graph_objs as go
 import pandas as pd
@@ -124,3 +125,12 @@ def getScatterPlotData(name, password):
 	)
 	plot_div = plot(fig, output_type='div', include_plotlyjs=False)
 	return plot_div
+
+def checkBadCredentials(name, password):
+	api = 'https://api.github.com/users/'
+	fullUrl = api+name
+	response = (requests.get(fullUrl, auth=(name, password))).json()
+	if 'message' in response:
+		return True
+	else:
+		return False

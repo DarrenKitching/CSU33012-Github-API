@@ -25,6 +25,7 @@ div {
     </div>
     <div class="user">
       <form action="/submit" method="post">
+      {% csrf_token %}
       <label for="uname"><b>Username</b></label>
       <input type="text" placeholder="Enter Username" name="uname" required>
     </div>

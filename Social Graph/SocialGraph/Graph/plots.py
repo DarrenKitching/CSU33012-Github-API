@@ -22,7 +22,9 @@ def switch(monthNum):
     }
     return switcher.get(monthNum, "Invalid month")
 
-def getBarChartData(name, password):
+def getBarChartData(request):
+	name = request.session['name']
+	password = request.session['password']
 	api = 'https://api.github.com/users/'
 	fullUrl = api+name
 	response = (requests.get(fullUrl, auth=(name, password))).json()
@@ -53,7 +55,9 @@ def getBarChartData(name, password):
 	plot_div = plot(fig, output_type='div', include_plotlyjs=False)
 	return plot_div
 
-def getPieChartData(name, password):
+def getPieChartData(request):
+	name = request.session['name']
+	password = request.session['password']
 	api = 'https://api.github.com/users/'
 	fullUrl = api+name+'/repos'
 	response = (requests.get(fullUrl, auth=(name, password))).json()
@@ -78,7 +82,9 @@ def getPieChartData(name, password):
 	plot_div = plot(fig, output_type='div', include_plotlyjs=False)
 	return plot_div
 
-def getScatterPlotData(name, password):
+def getScatterPlotData(request):
+	name = request.session['name']
+	password = request.session['password']
 	today = datetime.date.today()
 	month = today.month
 	year = today.year

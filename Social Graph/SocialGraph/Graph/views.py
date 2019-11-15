@@ -1,41 +1,33 @@
 from django.views.generic import TemplateView
 from django.template import Context, loader
 from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render
 from . import plots
 
-name = None
-password = None
+def getBar(request):
+    context = {}
+    context['myplots'] = plots.getBarChartData(request)
+    return render(request, 'plotbar.html', context)
 
-class MyBar(TemplateView):
-    template_name = 'plotbar.html'
-    def get_context_data(self, **kwargs):
-        context = super(MyBar, self).get_context_data(**kwargs)
-        context['myplots'] = plots.getBarChartData(name, password)
-        return context
+def getPie(request):
+    context = {}
+    context['myplots'] = plots.getPieChartData(request)
+    return render(request, 'plotpie.html',context)
 
-class MyPie(TemplateView):
-    template_name = 'plotpie.html'
-    def get_context_data(self, **kwargs):
-        context = super(MyPie, self).get_context_data(**kwargs)
-        context['myplots'] = plots.getPieChartData(name, password)
-        return context
-
-class MyScatter(TemplateView):
-    template_name = 'plotscatter.html'
-    def get_context_data(self, **kwargs):
-        context = super(MyScatter, self).get_context_data(**kwargs)
-        context['myplots'] = plots.getScatterPlotData(name, password)
-        return context
+def getScatter(request):
+    context = {}
+    context['myplots'] = plots.getScatterPlotData(request)
+    return render(request, 'plotscatter.html',context)
 
 def index(request):
     template = loader.get_template('login.html')
-    return HttpResponse(template.render())
+    return render(request, 'login.html')
 
 def submit(request):
-    global name
-    global password
     name = str(request.POST.get('uname'))
     password = str(request.POST.get('psw'))
+    request.session['name'] = name 
+    request.session['password'] = password 
     if plots.checkBadCredentials(name, password):
         return HttpResponseRedirect('badcredentials')
     else:    

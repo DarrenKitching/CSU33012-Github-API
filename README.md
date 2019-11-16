@@ -26,11 +26,11 @@ The final graph is a Scatter Plot which shows you how many commits you have made
 
 ![Alt text](/Images/ScatterPlotPage.PNG?raw=true "Scatter Plot")
 
-<h1>Use Live Version or Install and Run</h1>
+<h1>Use Live Version or Install and Run Locally</h1>
 <h2>Use Live Version</h2>
-<p>A live version is available at https://tinyurl.com/yx3kuonh</p>
+<p>A live version is available at https://tinyurl.com/srptr68</p>
 <p>Login using your Github credentials to allow API authentication.</p>
-<h2>Install and Run</h2>
+<h2>Install and Run Locally</h2>
 <p>
 Naviagte into the SocialGraph folder where you will see a file called 'requirements.txt'.
 </p>

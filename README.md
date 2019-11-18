@@ -28,7 +28,7 @@ The final graph is a Scatter Plot which shows you how many commits you have made
 
 <h1>Use Live Version or Install and Run Locally</h1>
 <h2>Use Live Version</h2>
-<p>A live version is available at https://tinyurl.com/srptr68</p>
+<p>A live version is available at http://darrenkitching.ie/GithubAPI/</p>
 <p>Login using your Github credentials to allow API authentication.</p>
 <h2>Install and Run Locally</h2>
 <p>
